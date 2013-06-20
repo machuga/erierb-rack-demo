@@ -1,10 +1,20 @@
 require 'rack'
+require './router'
 
-class FirstApp
-  def call(env)
-    [200, {"Content-Type" => "text/html"}, ["Hello Rack!"]]
-  end
+router = Router.new
+
+router.map '/' do
+  "Hello, World!"
 end
+
+router.map '/about' do
+  "Hello, About!"
+end
+
+router.map '/change' do
+  "Hello, Rack!"
+end
+
 
 class FirstMiddleware
   def initialize(app)
@@ -23,4 +33,4 @@ class FirstMiddleware
 end
 
 use FirstMiddleware
-run FirstApp.new
+run router
